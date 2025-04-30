@@ -6,12 +6,12 @@ import com.google.gson.GsonBuilder;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
+import java.util.Set;
 
 public class EscreverArquivoServico {
-    private Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    public void escrever(List<Pais> paises) throws IOException {
+    public void escrever(Set<Pais> paises) throws IOException {
         FileWriter arquivo = new FileWriter("paises.json");
         arquivo.write(gson.toJson(paises));
         arquivo.close();
