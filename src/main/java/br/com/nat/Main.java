@@ -5,39 +5,33 @@ import br.com.nat.modelos.Pais;
 import br.com.nat.servico.EscreverArquivoServico;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
-
-    private static String receberTextoTeclado(Scanner scanner){
-        System.out.println("Digite o nome do país: " );
-        return scanner.nextLine();
-    }
 
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         BuscarPaisControle buscarPaisControle = new BuscarPaisControle();
         EscreverArquivoServico escreverArquivo = new EscreverArquivoServico();
 
-        List<Pais> paises = new ArrayList<>();
+        Set<Pais> paises = new LinkedHashSet<>();
         String paisBusca = "";
 
         while(!paisBusca.equalsIgnoreCase("sair")){
-
-            paisBusca = receberTextoTeclado(scanner);
+            System.out.println("Digite o nome do país: " );
+            paisBusca =  scanner.nextLine();
 
             if(paisBusca.equalsIgnoreCase("sair")){
                 break;
             }
 
-            Optional<Pais> pais = buscarPaisControle.buscar(paisBusca);
+            Optional<Pais> pais = buscarPaisControle.buscarPais(paisBusca);
 
-            pais.ifPresent(p -> {
+            pais.ifPresentOrElse(p -> {
                 paises.add(p);
-                System.out.println(p.getNome());
+                System.out.println(p.getNome() + ", adicionado com sucesso.");
+            }, () -> {
+                System.out.println("País não encontrado. Tente novamente.");
             });
         }
 
