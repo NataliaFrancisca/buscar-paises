@@ -1,6 +1,8 @@
 package br.com.nat.modelos;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public class Pais {
     private String nome;
@@ -8,16 +10,7 @@ public class Pais {
     private List<String> capital;
     private String continente;
     private List<String> idiomas;
-    private Object bandeiraImgURL;
-
-    public Pais(String nome, String nomeOficial, List<String> capital, String continente, List<String> idioma, Object bandeiraImgURL) {
-        this.nome = nome;
-        this.nomeOficial = nomeOficial;
-        this.capital = capital;
-        this.continente = continente;
-        this.idiomas = idioma;
-        this.bandeiraImgURL = bandeiraImgURL;
-    }
+    private Map<String, String> bandeiraImgURL;
 
     public Pais(PaisDTO paisDTO){
         this.nome = paisDTO.name().common();
@@ -44,11 +37,11 @@ public class Pais {
         return continente;
     }
 
-    public Object getIdiomas() {
+    public List<String> getIdiomas() {
         return idiomas;
     }
 
-    public Object getBandeiraImgURL() {
+    public Map<String, String> getBandeiraImgURL() {
         return bandeiraImgURL;
     }
 
@@ -62,5 +55,18 @@ public class Pais {
                 Idioma: %s
                 Bandeira: %s
                 """.formatted(this.nome, this.nomeOficial, this.capital.getFirst(), this.continente, this.idiomas, this.bandeiraImgURL);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Pais pais = (Pais) o;
+        return Objects.equals(nome, pais.nome) && Objects.equals(nomeOficial, pais.nomeOficial);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nome, nomeOficial, capital, continente, idiomas, bandeiraImgURL);
     }
 }
