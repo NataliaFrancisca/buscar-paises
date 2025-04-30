@@ -2,37 +2,24 @@ package br.com.nat.controle;
 
 import br.com.nat.modelos.Pais;
 import br.com.nat.modelos.PaisDTO;
-import br.com.nat.servico.BuscarPaisesServico;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
+import br.com.nat.servico.BuscarPaisServico;
 
-import java.lang.reflect.Type;
-import java.util.List;
 import java.util.Optional;
 
 public class BuscarPaisControle {
-    private BuscarPaisesServico buscarPaisesServico;
-    private Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private final BuscarPaisServico buscarPaisServico;
 
     public BuscarPaisControle(){
-        this.buscarPaisesServico = new BuscarPaisesServico();
+        this.buscarPaisServico = new BuscarPaisServico();
     }
 
-    private PaisDTO deseralizarResposta(String resposta){
-        Type countryListType = new TypeToken<List<PaisDTO>>(){}.getType();
-        List<PaisDTO> paises = gson.fromJson(resposta, countryListType);
-        return paises.getFirst();
-    }
+    public Optional<Pais> buscarPais(String nomePais){
+        PaisDTO paisDTO = this.buscarPaisServico.buscar(nomePais);
 
-    public Optional<Pais> buscar(String nomePais){
-        String resposta = this.buscarPaisesServico.buscar(nomePais);
-
-        if(resposta == null){
+        if(paisDTO == null){
             return Optional.empty();
         }
 
-        PaisDTO paisDTO = this.deseralizarResposta(resposta);
         return Optional.of(new Pais(paisDTO));
     }
 }
