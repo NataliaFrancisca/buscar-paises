@@ -44,6 +44,9 @@ public class PesquisarPais {
                 paises.add(pais);
                 servicoEscreverArquivo.montarArquivo(paises, "paises", "json");
             }
+
+            List<String> paisesNome = paises.stream().map(Pais::getNome).toList();
+            System.out.println("Países já salvos no seu arquivo: " + paisesNome);
         }
 
         scanner.close();
