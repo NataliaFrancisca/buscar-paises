@@ -1,10 +1,12 @@
 package br.com.nat;
 
+import java.time.LocalTime;
+import java.util.LinkedHashSet;
+import java.util.Scanner;
+import java.util.Set;
+
 import br.com.nat.servico.ServicoEscreverArquivo;
 import br.com.nat.servico.ServicoPaises;
-
-import java.time.LocalTime;
-import java.util.*;
 
 public class DigiteOsPaisesDoContinente {
 
@@ -32,6 +34,11 @@ public class DigiteOsPaisesDoContinente {
         while(LocalTime.now().isBefore(horaFimJogo)){
             System.out.print("Nome do país: ");
             String nomePais = scanner.nextLine();
+
+            if(listaPaisesUsuario.contains(nomePais.toLowerCase())){
+                System.out.println("País já adicionado, digite outro.");
+                continue;
+            }
 
             if(listaPaisesAPI.contains(nomePais)){
                 listaPaisesUsuario.add(nomePais);
